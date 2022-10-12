@@ -48,11 +48,12 @@ services:
     container_name: store_manager_db
     image: mysql:8.0.23
     environment:
-      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: StoreManager
     ports:
       # Garanta que não haverá conflitos de porta com um banco que esteja
       # rodando localmente
-      - 33061:3306
+      - 33062:3306
     networks:
       # Conecta esse serviço com a rede que criada 
       - store_manager_net
