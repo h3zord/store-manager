@@ -1,10 +1,10 @@
 const chai = require('chai');
 const { expect } = chai;
 const sinon = require('sinon');
+const sinonChai = require('sinon-chai');
 const { productsServices } = require('../../../src/services');
 const { productsController } = require('../../../src/controllers')
-const { expectReturn } = require('./mocks/productsControllerMock');
-const sinonChai = require('sinon-chai');
+const { expectReturn, newProduct, validName, invalidName } = require('./mocks/productsControllerMock');
 
 chai.use(sinonChai);
 
@@ -51,6 +51,48 @@ describe('Teste dos produtos da camada controller', function () {
       expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
     })
   });
+
+  describe('Adicionar um novo produto', function () {
+    it('Retorna status 201 e um objeto com os dados da pessoa cadastrada em caso de sucesso', async function () {
+      const res = {};
+      const req = { body: validName };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productsServices, 'insert').resolves({ type: null, message: newProduct });
+
+      await productsController.insert(req, res);
+
+      expect(res.status).to.have.been.calledWith(201);
+      expect(res.json).to.have.been.calledWith(newProduct);
+    });
+
+    it('Retorna status 422 e uma mensagem de erro caso o campo "name" seja inválido', async function () {
+      const res = {};
+      const req = { body: invalidName };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productsServices, 'insert').resolves({ type: 'NAME_IS_INVALID', message: '"name" length must be at least 5 characters long' });
+
+      await productsController.insert(req, res);
+
+      expect(res.status).to.have.been.calledWith(422);
+      expect(res.json).to.have.been.calledWith({ message: '"name" length must be at least 5 characters long' });
+    });
+
+    it('Retorna status 400 e uma mensagem de erro caso o campo "name" seja inexistente', async function () {
+      const res = {};
+      const req = { body: {} };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productsServices, 'insert').resolves({ type: 'NAME_IS_REQUIRED', message: '"name" is required' });
+
+      await productsController.insert(req, res);
+
+      expect(res.status).to.have.been.calledWith(400);
+      expect(res.json).to.have.been.calledWith({ message: '"name" is required' });
+    });
+  });
+
 
   afterEach(() => {
     sinon.restore();

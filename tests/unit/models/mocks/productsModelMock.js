@@ -7,8 +7,13 @@ const expectReturn = [
     "id": 2,
     "name": "Traje de encolhimento"
   }
-]
+];
+
+const newProduct = {
+  "name": "Alexa"
+};
 
 module.exports = {
   expectReturn,
-}
+  newProduct,
+};

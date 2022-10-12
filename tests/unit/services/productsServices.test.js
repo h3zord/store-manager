@@ -1,8 +1,9 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
+const connection = require('../../../src/models/connection');
 const { productsModel } = require('../../../src/models');
 const { productsServices } = require('../../../src/services');
-const { expectReturn } = require('./mocks/productsServicesMock');
+const { expectReturn, registeredProduct ,validName, invalidName } = require('./mocks/productsServicesMock');
 
 describe('Teste dos produtos da camada services', function () {
   describe('Listar todos os produtos', function () {
@@ -33,7 +34,26 @@ describe('Teste dos produtos da camada services', function () {
     });
   });
 
+  describe('Adicionar um novo produto', function () {
+    it('Retorna um objeto com as informações da pessoa cadastrada em caso de sucesso', async function () {
+      sinon.stub(productsModel, 'insert').resolves(1);
+      sinon.stub(productsModel, 'findById').resolves(registeredProduct[0]);
+
+      const result = await productsServices.insert(validName);
+
+      expect(result.type).to.be.eq(null);
+      expect(result.message).to.be.deep.eq(registeredProduct[0]);
+    });
+
+    it('Retorna uma mensagem de erro caso o campo "name" seja inválido', async function () {
+      const result = await productsServices.insert(invalidName);
+
+      expect(result.type).to.be.eq('NAME_IS_INVALID');
+      expect(result.message).to.be.eq('"name" length must be at least 5 characters long');
+    });
+  });
+
   afterEach(() => {
     sinon.restore();
   });
-});
+}); 

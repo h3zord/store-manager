@@ -13,7 +13,18 @@ const findById = async (req, res) => {
   return res.status(404).json({ message });
 };
 
+const insert = async (req, res) => {
+  const { name } = req.body;
+  if (name) {
+    const { type, message } = await productsServices.insert(name);
+    if (!type) return res.status(201).json(message);
+    return res.status(422).json({ message });
+  }
+  return res.status(400).json({ message: '"name" is required' });
+};
+
 module.exports = {
   getAll,
   findById,
-};
+  insert,
+}; 
