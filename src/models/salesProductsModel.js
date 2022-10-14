@@ -1,4 +1,4 @@
-// const camelize = require('camelize');
+const camelize = require('camelize');
 const snakeize = require('snakeize');
 const connection = require('./connection');
 
@@ -18,6 +18,23 @@ const insert = async (saleInfo) => {
   return insertId;
 };
 
+const getAll = async () => {
+  const [result] = await connection.execute(
+    'SELECT * FROM StoreManager.sales_products',
+  );
+  return camelize(result);
+};
+
+const findById = async (saleId) => {
+  const [result] = await connection.execute(
+    'SELECT * FROM StoreManager.sales_products WHERE sale_id = ?',
+    [saleId],
+  );
+  return camelize(result);
+};
+
 module.exports = {
   insert,
+  getAll,
+  findById,
 };

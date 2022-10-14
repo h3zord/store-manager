@@ -13,6 +13,7 @@ const newProduct = {
   "name": "Alexa"
 };
 
+
 module.exports = {
   expectReturn,
   newProduct,

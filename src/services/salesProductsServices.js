@@ -1,4 +1,9 @@
-const { salesModel, salesProductsModel } = require('../models');
+const { salesModel } = require('../models');
+const {
+  formattedInsert,
+  formattedGetAll,
+  formattedFindById,
+} = require('./utilities/formattedResults');
 const { quantityIsValid, doesProductExist } = require('./validation/validationsInputValues');
 
 const insert = async (saleInfo) => {
@@ -7,20 +12,28 @@ const insert = async (saleInfo) => {
   const { type: typePrdId, message: msgPrdId, status: stsPrdId } = await doesProductExist(saleInfo);
   if (typePrdId) return { type: typePrdId, message: msgPrdId, status: stsPrdId };
 
-  const saleId = await salesModel.insert();
-  
-  saleInfo.forEach(async ({ productId, quantity }) => {
-    await salesProductsModel.insert({ saleId, productId, quantity });
-  });
-
-  const message = {
-    id: saleId,
-    itemsSold: saleInfo,
-  };
+  const message = await formattedInsert(saleInfo);
 
   return { type: null, message };
 };
 
+const getAll = async () => {
+  const message = await formattedGetAll();
+  return { status: 200, message };
+};
+
+const findById = async (saleId) => {
+  const result = await salesModel.findById(saleId);
+  
+  if (!result) return { type: 'SALE_NOT_FOUND', message: 'Sale not found' };
+
+  const message = await formattedFindById(saleId);
+
+  return { status: 200, message };
+};
+
 module.exports = {
   insert,
+  getAll,
+  findById,
 };

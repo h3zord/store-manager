@@ -1,6 +1,6 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
-const { invalidQuantitySale, invalidIdSale, validSale, sucessSale } = require('./mocks/salesServicesMock');
+const { invalidQuantitySale, invalidIdSale, validSale, sucessSale, getAllSales, formattedGetAllSales, dateSale, formattedFindByIdSale } = require('./mocks/salesServicesMock');
 const { productsModel, salesModel, salesProductsModel } = require('../../../src/models');
 const { salesProductsServices } = require('../../../src/services')
 
@@ -27,6 +27,34 @@ describe('Teste das vendas na camada services', function () {
       const result = await salesProductsServices.insert(validSale);
 
       expect(result.message).to.be.deep.eq(sucessSale);
+    });
+  });
+  describe('Testando se retorna todas as vendas ', function () {
+    it('Testando se retorna um objeto com todas as vendas e o status 200', async function () {
+      sinon.stub(salesProductsModel, 'getAll').resolves(getAllSales);
+      sinon.stub(salesModel, 'findById').resolves(dateSale);
+
+      const result = await salesProductsServices.getAll();
+
+      expect(result.message).to.be.deep.eq(formattedGetAllSales);
+      expect(result.status).to.be.eq(200)
+    });
+  });
+  describe('Testando se retorna uma venda específica', function () {
+    it('Testando se retorna um erro se a venda não existir', async () => {
+      sinon.stub(salesModel, 'findById').resolves(undefined);
+
+      const result = await salesProductsServices.findById(999);
+
+      expect(result.message).to.be.eq('Sale not found');
+    });
+    it('Testando se retorna um objeto caso a venda exista', async () => {
+      sinon.stub(salesProductsModel, 'findById').resolves(getAllSales);
+
+      const result = await salesProductsServices.findById(1);
+  
+      expect(result.status).to.be.eq(200);
+      // expect(result.message).to.be.eq(formattedFindByIdSale);
     });
   });
 

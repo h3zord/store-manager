@@ -8,6 +8,15 @@ const insert = async () => {
   return insertId;
 };
 
+const findById = async (saleId) => {
+  const [[result]] = await connection.execute(
+    'SELECT * FROM StoreManager.sales WHERE id = ?',
+    [saleId],
+  );
+  return result;
+};
+
 module.exports = {
   insert,
+  findById,
 };
