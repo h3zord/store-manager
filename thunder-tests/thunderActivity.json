@@ -4,16 +4,16 @@
     "colId": "history",
     "containerId": "",
     "name": "http://localhost:3000/products/2",
-    "url": "http://localhost:3000/products/",
+    "url": "http://localhost:3000/sales/",
     "method": "POST",
     "sortNum": 0,
     "created": "2022-10-12T01:12:20.921Z",
-    "modified": "2022-10-12T18:12:42.997Z",
+    "modified": "2022-10-14T14:07:00.475Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"name\": \"Alexa\"\n}",
+      "raw": "[\n  {\n    \"productId\": 1,\n    \"quantity\": 10\n  }\n]",
       "form": []
     },
     "tests": []

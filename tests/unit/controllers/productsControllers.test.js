@@ -1,14 +1,17 @@
 const chai = require('chai');
 const { expect } = chai;
 const sinon = require('sinon');
+const chaiHttp = require('chai-http');
 const sinonChai = require('sinon-chai');
 const { productsServices } = require('../../../src/services');
 const { productsController } = require('../../../src/controllers')
 const { expectReturn, newProduct, validName, invalidName } = require('./mocks/productsControllerMock');
+const app = require('../../../src/app');
 
 chai.use(sinonChai);
+chai.use(chaiHttp);
 
-describe('Teste dos produtos da camada controller', function () {
+describe('Teste dos produtos na camada controller', function () {
   describe('Listar todos os produtos', function () {
     it('Deve retornar o status 200 e a lista de produtos', async function () {
       const res = {};
@@ -80,19 +83,15 @@ describe('Teste dos produtos da camada controller', function () {
     });
 
     it('Retorna status 400 e uma mensagem de erro caso o campo "name" seja inexistente', async function () {
-      const res = {};
-      const req = { body: {} };
-      res.status = sinon.stub().returns(res);
-      res.json = sinon.stub().returns();
-      sinon.stub(productsServices, 'insert').resolves({ type: 'NAME_IS_REQUIRED', message: '"name" is required' });
-
-      await productsController.insert(req, res);
-
-      expect(res.status).to.have.been.calledWith(400);
-      expect(res.json).to.have.been.calledWith({ message: '"name" is required' });
+      const res = await chai
+        .request(app)
+        .post('/products')
+        .send({});
+      
+      expect(res.status).to.be.eq(400);
+      expect(res.text).to.be.eq('{"message":"\\"name\\" is required"}');
     });
   });
-
 
   afterEach(() => {
     sinon.restore();

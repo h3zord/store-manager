@@ -10,7 +10,7 @@ const findById = async (productId) => {
   const product = await productsModel.findById(productId);
 
   if (product) return { type: null, message: product };
-  return { type: 'PASSENGER_NOT_FOUND', message: 'Product not found' };
+  return { type: 'PRODUCT_NOT_FOUND', message: 'Product not found' };
 };
 
 const insert = async (name) => {

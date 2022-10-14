@@ -1,11 +1,10 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
-const connection = require('../../../src/models/connection');
 const { productsModel } = require('../../../src/models');
 const { productsServices } = require('../../../src/services');
 const { expectReturn, registeredProduct ,validName, invalidName } = require('./mocks/productsServicesMock');
 
-describe('Teste dos produtos da camada services', function () {
+describe('Teste dos produtos na camada services', function () {
   describe('Listar todos os produtos', function () {
     it('Deve retornar um  array com todos todos os produtos', async function () {
       sinon.stub(productsModel, 'getAll').resolves(expectReturn);

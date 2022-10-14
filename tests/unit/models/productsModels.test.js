@@ -4,7 +4,7 @@ const connection = require('../../../src/models/connection');
 const { productsModel } = require('../../../src/models');
 const { expectReturn, newProduct } = require('./mocks/productsModelMock')
 
-describe('Testes dos produtos da camada model', function () {
+describe('Testes dos produtos na camada model', function () {
   describe('Listar todos os produtos', function () {
     it('Deve retornar um  array com todos todos os produtos', async function () {
       sinon.stub(connection, 'execute').resolves([expectReturn]);
