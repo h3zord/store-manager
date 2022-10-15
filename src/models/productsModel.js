@@ -33,8 +33,21 @@ const insert = async (productInfo) => {
   return insertId;
 };
 
+const updateById = async (productId, productInfo) => {
+  const columns = Object.keys(snakeize(productInfo))
+    .map((key) => `${key} = ?`)
+    .join(', ');
+  
+  const [{ changedRows }] = await connection.execute(
+    `UPDATE StoreManager.products SET ${columns} WHERE id = ?`,
+    [...Object.values(productInfo), productId],
+  );
+  return changedRows;
+};
+
 module.exports = {
   getAll,
   findById,
   insert,
+  updateById,
 };

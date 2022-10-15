@@ -5,7 +5,7 @@ const chaiHttp = require('chai-http');
 const sinonChai = require('sinon-chai');
 const { productsServices } = require('../../../src/services');
 const { productsController } = require('../../../src/controllers')
-const { expectReturn, newProduct, validName, invalidName } = require('./mocks/productsControllerMock');
+const { expectReturn, newProduct, validName, invalidName, udpatedProduct } = require('./mocks/productsControllerMock');
 const app = require('../../../src/app');
 
 chai.use(sinonChai);
@@ -91,6 +91,44 @@ describe('Teste dos produtos na camada controller', function () {
       expect(res.status).to.be.eq(400);
       expect(res.text).to.be.eq('{"message":"\\"name\\" is required"}');
     });
+  });
+
+  describe('Atualizando um produto pelo ID', function () {
+    it('Testando se retorna objeto com as informações atualizadas e o status 200', async function () {
+      const res = {};
+      const req = { body: { name: "Martelo do Batman" }, params: { id: 1 } };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productsServices, 'updateById').resolves({ type: null, message: udpatedProduct })
+
+      await productsController.updateById(req, res);
+      
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(udpatedProduct);
+    })
+
+    it('Testando se retorna um erro se name for ausente', async function () {
+      const res = await chai
+        .request(app)
+        .put('/products/:id')
+        .send({ params: { id: 1 } });
+
+      expect(res.status).to.be.eq(400);
+      expect(res.text).to.be.eq('{"message":"\\"name\\" is required"}');
+    });
+
+    it('Testando se retorna um erro se o name for inválido', async function () {
+      const res = {};
+      const req = { body: { name: 'abc' }, params: { id: 1 } };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      await productsController.updateById(req, res);
+
+      expect(res.status).to.have.been.calledWith(422);
+      expect(res.json).to.have.been.calledWith({ message: '"name" length must be at least 5 characters long' });
+    })
   });
 
   afterEach(() => {

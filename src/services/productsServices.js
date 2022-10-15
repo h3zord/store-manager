@@ -23,8 +23,21 @@ const insert = async (name) => {
   return { type, message };
 };
 
+const updateById = async (productId, name) => {
+  const { type, message } = validateProductInfo(name);
+  if (type) return { type, message, status: 422 };
+
+  const changedRows = await productsModel.updateById(productId, { name });
+  if (changedRows) {
+    const result = await productsModel.findById(productId);
+    return { type: null, message: result };
+  }
+  return { type: 'PRODUCT_NOT_FOUND', message: 'Product not found', status: 404 };
+};
+
 module.exports = {
   getAll,
   findById,
   insert,
+  updateById,
 }; 

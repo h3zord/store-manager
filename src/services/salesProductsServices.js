@@ -29,7 +29,7 @@ const findById = async (saleId) => {
 
   const message = await formattedFindById(saleId);
 
-  return { status: 200, message };
+  return { type: null, message };
 };
 
 module.exports = {

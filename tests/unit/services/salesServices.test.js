@@ -48,14 +48,14 @@ describe('Teste das vendas na camada services', function () {
 
       expect(result.message).to.be.eq('Sale not found');
     });
-    it('Testando se retorna um objeto caso a venda exista', async () => {
+    it('Testando se retorna type null caso a venda exista', async () => {
       sinon.stub(salesProductsModel, 'findById').resolves(getAllSales);
 
       const result = await salesProductsServices.findById(1);
   
-      expect(result.status).to.be.eq(200);
+      expect(result.type).to.be.eq(null);
       // expect(result.message).to.be.eq(formattedFindByIdSale);
-    });
+    }); 
   });
 
   afterEach(() => {

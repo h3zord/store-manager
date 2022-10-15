@@ -19,9 +19,15 @@ const registeredProduct = [
   }
 ];
 
+const udpatedProduct = {
+  "id": 1,
+  "name": "Martelo do Batman"
+};
+
 module.exports = {
   expectReturn,
   registeredProduct,
   validName,
   invalidName,
+  udpatedProduct,
 };

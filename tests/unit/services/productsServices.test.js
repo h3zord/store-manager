@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const { productsModel } = require('../../../src/models');
 const { productsServices } = require('../../../src/services');
-const { expectReturn, registeredProduct ,validName, invalidName } = require('./mocks/productsServicesMock');
+const { expectReturn, registeredProduct ,validName, invalidName, udpatedProduct } = require('./mocks/productsServicesMock');
 
 describe('Teste dos produtos na camada services', function () {
   describe('Listar todos os produtos', function () {
@@ -48,6 +48,31 @@ describe('Teste dos produtos na camada services', function () {
       const result = await productsServices.insert(invalidName);
 
       expect(result.type).to.be.eq('NAME_IS_INVALID');
+      expect(result.message).to.be.eq('"name" length must be at least 5 characters long');
+    });
+  });
+
+  describe('Atualiza um produto pelo ID', function () {
+    it('Verifica se retorna um objeto com as informações atualizadas', async function () {
+      sinon.stub(productsModel, 'updateById').resolves(1);
+      sinon.stub(productsModel, 'findById').resolves({ id: 1, name: 'Martelo do Batman' });
+
+      const result = await productsServices.updateById(1, 'Martelo do Batman');
+
+      expect(result.message).to.be.deep.eq(udpatedProduct);
+    });
+
+    it('Retorna um erro se o produto for inexistente', async function () {
+      sinon.stub(productsModel, 'updateById').resolves(undefined);
+
+      const result = await productsServices.updateById(999, 'Martelo do Batman');
+      expect(result.message).to.be.eq('Product not found');
+    });
+
+    it('Verifica se retorna um erro se o name for invalido', async function () {
+      const result = await productsServices.updateById(1, 'abc');
+
+      expect(result.status).to.be.eq(422);
       expect(result.message).to.be.eq('"name" length must be at least 5 characters long');
     });
   });

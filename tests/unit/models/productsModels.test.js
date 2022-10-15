@@ -36,6 +36,16 @@ describe('Testes dos produtos na camada model', function () {
     });
   });
 
+  describe('Atualizar um produto pelo id', () => {
+    it('Verifica se retorna changedRows corretamente', async () => {
+      sinon.stub(connection, 'execute').resolves([{ changedRows: 1 }]);
+
+      const result = await productsModel.updateById(1, { name: 'Martelo do Batman' });
+
+      expect(result).to.be.eq(1);
+    });
+  });
+
   afterEach(() => {
     sinon.restore();
   });
