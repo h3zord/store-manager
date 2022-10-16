@@ -116,6 +116,33 @@ describe('Teste das vendas na camada controller', function () {
     });
   });
 
+  describe('Deletando uma venda pelo ID', function () {
+    it('Verificando se retorna o status 404 e uma mensagem de erro caso a venda não tenha sido deletada', async function () {
+      const res = {};
+      const req = { params: 999 };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(salesProductsServices, 'deleteById').resolves({ type: 'SALES_NOT_FOUND', message: 'Sale not found' });
+
+      await salesProductsController.deleteById(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
+    });
+
+    it('Verificando se retorna o status 204 caso a venda tenha sido deletada', async function () {
+      const res = {};
+      const req = { params: 1 };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(salesProductsServices, 'deleteById').resolves({ type: null, message: '' });
+
+      await salesProductsController.deleteById(req, res);
+
+      expect(res.status).to.have.been.calledWith(204);
+    });
+  });
+
   afterEach(() => {
     sinon.restore();
   });

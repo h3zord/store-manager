@@ -58,6 +58,24 @@ describe('Teste das vendas na camada services', function () {
     }); 
   });
 
+  describe('Deletando uma venda pelo ID', function () {
+    it('Testando se retorna uma mensagem de erro se a venda não existir', async function () {
+      sinon.stub(salesModel, 'deleteById').resolves(undefined);
+
+      const result = await salesProductsServices.deleteById(999);
+
+      expect(result.message).to.be.eq('Sale not found');
+    });
+
+    it('Testando se retorna o type null se a venda for deletada', async function () {
+      sinon.stub(salesModel, 'deleteById').resolves(1);
+
+      const result = await salesProductsServices.deleteById(1);
+
+      expect(result.type).to.be.eq(null);
+    });
+  });
+
   afterEach(() => {
     sinon.restore();
   });

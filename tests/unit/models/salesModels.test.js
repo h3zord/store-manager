@@ -41,6 +41,16 @@ describe('Testes das vendas na camada model', function () {
     });
   })
 
+  describe('Detelando uma venda pelo ID', function () {
+    it('Verificando se retorna affectedRows corretamente', async function () {
+      sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+
+      const result = await salesModel.deleteById(1);
+
+      expect(result).to.be.eq(1);
+    });
+  });
+
   afterEach(() => {
     sinon.restore();
   });
