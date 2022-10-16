@@ -77,6 +77,25 @@ describe('Teste dos produtos na camada services', function () {
     });
   });
 
+  describe('Deletando um produto pelo ID', function () {
+    it('Testando se retorna uam mensagem e o erro 404 se o produto não existir', async function () {
+      sinon.stub(productsModel, 'deleteById').resolves(undefined);
+
+      const result = await productsServices.deleteById(999);
+
+      expect(result.type).to.be.eq('PRODUCT_NOT_FOUND')
+      expect(result.message).to.be.eq('Product not found');
+    });
+
+    it('Testando se o type é null caso o produto exista', async function () {
+      sinon.stub(productsModel, 'deleteById').resolves(1);
+
+      const result = await productsServices.deleteById(1);
+
+      expect(result.type).to.be.eq(null);
+    });
+  })
+
   afterEach(() => {
     sinon.restore();
   });

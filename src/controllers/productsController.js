@@ -28,9 +28,18 @@ const updateById = async (req, res) => {
   return res.status(status).json({ message });
 };
 
+const deleteById = async (req, res) => {
+  const { id } = req.params;
+  const { type, message } = await productsServices.deleteById(id);
+
+  if (!type) return res.status(204).json();
+  return res.status(404).json({ message });
+};
+
 module.exports = {
   getAll,
   findById,
   insert,
   updateById,
+  deleteById,
 }; 

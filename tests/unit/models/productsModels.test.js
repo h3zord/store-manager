@@ -46,6 +46,16 @@ describe('Testes dos produtos na camada model', function () {
     });
   });
 
+  describe('Deletando um produto pelo ID', function () {
+    it('Testando se retorna as linhas afetadas corretamente', async function () {
+      sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+
+      const result = await productsModel.deleteById(1);
+
+      expect(result).to.be.eq(1);
+    });
+  });
+
   afterEach(() => {
     sinon.restore();
   });

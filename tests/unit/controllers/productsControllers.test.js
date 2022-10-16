@@ -131,6 +131,33 @@ describe('Teste dos produtos na camada controller', function () {
     })
   });
 
+  describe('Deleta um produto pelo ID', function () {
+    it('Testando se retorna um erro 404 e uma mensagem em caso de produto não encontrado', async function () {
+      const res = {};
+      const req = { params: { id: 999 } };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productsServices, 'deleteById').resolves({ type: 'PRODUCT_NOT_FOUND', message: 'Product not found' });
+
+      await productsController.deleteById(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
+    });
+
+    it('Testando se retorna o status 204 em caso de sucesso para deletar um produto', async function () {
+      const res = {};
+      const req = { params: { id: 1 } };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productsServices, 'deleteById').resolves({ type: null, message: '' });
+
+      await productsController.deleteById(req, res);
+
+      expect(res.status).to.have.been.calledWith(204);
+    });
+  });
+
   afterEach(() => {
     sinon.restore();
   });
