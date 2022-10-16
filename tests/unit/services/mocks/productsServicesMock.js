@@ -9,14 +9,14 @@ const expectReturn = [
   {
     "id": 2,
     "name": "Traje de encolhimento"
-  }
+  },
 ];
 
 const registeredProduct = [
   {
     "id": 1,
     "name": validName,
-  }
+  },
 ];
 
 const udpatedProduct = {

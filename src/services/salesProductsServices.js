@@ -3,6 +3,7 @@ const {
   formattedInsert,
   formattedGetAll,
   formattedFindById,
+  formattedUpdateById,
 } = require('./utilities/formattedResults');
 const { quantityIsValid, doesProductExist } = require('./validation/validationsInputValues');
 
@@ -39,9 +40,25 @@ const deleteById = async (saleId) => {
   return { type: null, message: '' };
 };
 
+const updateById = async (saleId, saleInfo) => {
+  const { type: typeQuant, message: msgQuant, status: stsQuant } = quantityIsValid(saleInfo);
+  if (typeQuant) return { type: typeQuant, message: msgQuant, status: stsQuant };
+  const { type: typePrdId, message: msgPrdId, status: stsPrdId } = await doesProductExist(saleInfo);
+  if (typePrdId) return { type: typePrdId, message: msgPrdId, status: stsPrdId };
+  
+  const result = await salesModel.findById(saleId);
+  
+  if (!result) return { type: 'SALE_NOT_FOUND', message: 'Sale not found', status: 404 };
+
+  const message = await formattedUpdateById(saleId, saleInfo);
+  
+  return { type: null, message };
+};
+
 module.exports = {
   insert,
   getAll,
   findById,
   deleteById,
+  updateById,
 };

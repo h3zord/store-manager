@@ -49,8 +49,26 @@ const formattedFindById = async (saleId) => {
   return formattedResult;
 };
 
+const formattedUpdateById = async (saleId, saleInfo) => {
+  const getSalesById = await salesProductsModel.findById(saleId);
+
+  saleInfo.forEach(async ({ productId, quantity }, index) => {
+    const { productId: idOutDated, quantity: quantityOutDated } = getSalesById[index];
+  
+    await salesProductsModel
+      .updateById(saleId, { productId, quantity }, { idOutDated, quantityOutDated });
+  });
+
+  const result = {
+    saleId,
+    itemsUpdated: saleInfo,
+  };
+  return result;
+};
+
 module.exports = {
   formattedInsert,
   formattedGetAll,
   formattedFindById,
+  formattedUpdateById,
 };

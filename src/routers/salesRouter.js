@@ -12,4 +12,6 @@ router.get('/:id', salesProductsController.findById);
 
 router.delete('/:id', salesProductsController.deleteById);
 
+router.put('/:id', checkSaleInfo, salesProductsController.updateById);
+
 module.exports = router;

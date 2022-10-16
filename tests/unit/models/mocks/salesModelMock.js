@@ -32,8 +32,20 @@ const getSaleById = [
   },
 ];
 
+const updatedInfoSale = {
+  "productId": 1,
+  "quantity": 10
+};
+
+const outDatedInfoSale = {
+  "productId": 1,
+  "quantity": 5
+};
+
 module.exports = {
   newSale,
   getAllSales,
   getSaleById,
+  updatedInfoSale,
+  outDatedInfoSale,
 };

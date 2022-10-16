@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 const connection = require('../../../src/models/connection');
-const { newSale, getAllSales, getSaleById } = require('./mocks/salesModelMock');
+const { newSale, getAllSales, getSaleById, updatedInfoSale, outDatedInfoSale } = require('./mocks/salesModelMock');
 const { salesModel } = require('../../../src/models');
 const { salesProductsModel } = require('../../../src/models');
 
@@ -46,6 +46,16 @@ describe('Testes das vendas na camada model', function () {
       sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
 
       const result = await salesModel.deleteById(1);
+
+      expect(result).to.be.eq(1);
+    });
+  });
+
+  describe('Atualizando uma venda pelo ID', function () {
+    it('Verificando se changedRows é retornado com o valor correto', async function () {
+      sinon.stub(connection, 'execute').resolves([{ changedRows: 1 }]);
+
+      const result = await salesProductsModel.updateById(1, updatedInfoSale, outDatedInfoSale );
 
       expect(result).to.be.eq(1);
     });
