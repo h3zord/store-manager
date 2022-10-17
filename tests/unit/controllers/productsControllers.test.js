@@ -5,7 +5,7 @@ const chaiHttp = require('chai-http');
 const sinonChai = require('sinon-chai');
 const { productsServices } = require('../../../src/services');
 const { productsController } = require('../../../src/controllers')
-const { expectReturn, newProduct, validName, invalidName, udpatedProduct } = require('./mocks/productsControllerMock');
+const { expectReturn, newProduct, validName, invalidName, udpatedProduct, expectReturnByQuery } = require('./mocks/productsControllerMock');
 const app = require('../../../src/app');
 
 chai.use(sinonChai);
@@ -155,6 +155,47 @@ describe('Teste dos produtos na camada controller', function () {
       await productsController.deleteById(req, res);
 
       expect(res.status).to.have.been.calledWith(204);
+    });
+  });
+
+  describe('Buscando produtos pela query', function () {
+    it('Verificando se retorna um array vazio caso nenhum produto seja encontrado', async function () {
+      const res = {};
+      const req = { query: { q: 'TESTE' } };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productsServices, 'findByQuery').resolves({ type: 'PRODUCT_NOT_FOUND', message: 'Product not found' });
+
+      await productsController.findByQuery(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith([]);
+    });
+
+    it('Verificando se retorna um array de objeto com os produtos encontrados', async function () {
+      const res = {};
+      const req = { query: { q: undefined } };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productsServices, 'findByQuery').resolves({ type: null, message: expectReturn });
+
+      await productsController.findByQuery(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(expectReturn);
+    });
+
+    it('Verificando se retorna um objeto com um unico produto encontrado', async function () {
+      const res = {};
+      const req = { query: { q: 'martelo' } };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productsServices, 'findByQuery').resolves({ type: null, message: expectReturnByQuery });
+
+      await productsController.findByQuery(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(expectReturnByQuery);
     });
   });
 

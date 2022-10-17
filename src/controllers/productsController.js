@@ -36,10 +36,26 @@ const deleteById = async (req, res) => {
   return res.status(404).json({ message });
 };
 
+const findByQuery = async (req, res) => {
+  const { q } = req.query;
+
+  if (!q) {
+    const { message } = await productsServices.findByQuery('%');
+    return res.status(200).json(message);
+  }
+  
+  const { type, message } = await productsServices.findByQuery(q);
+
+  if (!type) return res.status(200).json(message);
+
+  return res.status(404).json([]);
+};
+
 module.exports = {
   getAll,
   findById,
   insert,
   updateById,
   deleteById,
+  findByQuery,
 }; 

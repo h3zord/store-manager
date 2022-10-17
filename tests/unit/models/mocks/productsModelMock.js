@@ -13,8 +13,16 @@ const newProduct = {
   "name": "Alexa"
 };
 
+const expectReturnByQuery = [
+  {
+    "id": 1,
+    "name": "Martelo de Thor"
+  },
+];
+
 
 module.exports = {
   expectReturn,
   newProduct,
+  expectReturnByQuery,
 };

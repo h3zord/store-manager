@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const { productsModel } = require('../../../src/models');
 const { productsServices } = require('../../../src/services');
-const { expectReturn, registeredProduct ,validName, invalidName, udpatedProduct } = require('./mocks/productsServicesMock');
+const { expectReturn, registeredProduct ,validName, invalidName, udpatedProduct, expectReturnByQuery, allProductsByQuery } = require('./mocks/productsServicesMock');
 
 describe('Teste dos produtos na camada services', function () {
   describe('Listar todos os produtos', function () {
@@ -94,7 +94,33 @@ describe('Teste dos produtos na camada services', function () {
 
       expect(result.type).to.be.eq(null);
     });
-  })
+  });
+
+  describe('Buscando um produto pela query', function () {
+    it('Verificando se retorna um array com as informações do produto', async function () {
+      sinon.stub(productsModel, 'findByQuery').resolves(expectReturnByQuery);
+
+      const result = await productsServices.findByQuery('%Martelo%');
+
+      expect(result.message).to.be.deep.eq(expectReturnByQuery);
+    });
+
+    it('Verifica se retorna todos os produtos se a query não for passada', async function () {
+      sinon.stub(productsModel, 'findByQuery').resolves(allProductsByQuery);
+
+      const result = await productsServices.findByQuery('%');
+
+      expect(result.message).to.be.deep.eq(allProductsByQuery);
+    });
+
+    it('Testando se retorna uma mensagem caso nenhum produto for encontrado', async function () {
+      sinon.stub(productsModel, 'findByQuery').resolves([]);
+
+      const result = await productsServices.findByQuery('%TESTE%');
+
+      expect(result.message).to.be.eq('Product not found');
+    });
+  });
 
   afterEach(() => {
     sinon.restore();

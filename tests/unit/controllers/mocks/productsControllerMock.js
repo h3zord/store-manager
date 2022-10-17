@@ -24,10 +24,18 @@ const udpatedProduct = {
   "name": "Martelo do Batman"
 };
 
+const expectReturnByQuery = [
+  {
+    "id": 1,
+    "name": "Martelo de Thor"
+  },
+];
+
 module.exports = {
   expectReturn,
   validName,
   newProduct,
   invalidName,
   udpatedProduct,
+  expectReturnByQuery,
 };

@@ -4,11 +4,11 @@
     "colId": "history",
     "containerId": "",
     "name": "http://localhost:3000/products/2",
-    "url": "http://localhost:3000/sales/999",
-    "method": "PUT",
+    "url": "http://localhost:3000/products/search?q=thor",
+    "method": "GET",
     "sortNum": 0,
     "created": "2022-10-12T01:12:20.921Z",
-    "modified": "2022-10-16T22:17:41.860Z",
+    "modified": "2022-10-17T15:06:28.405Z",
     "headers": [
       {
         "name": "Accept",
@@ -21,7 +21,13 @@
         "isDisabled": true
       }
     ],
-    "params": [],
+    "params": [
+      {
+        "name": "q",
+        "value": "thor",
+        "isPath": false
+      }
+    ],
     "body": {
       "type": "json",
       "raw": "[\n  {\n    \"productId\": 1,\n    \"quantity\": 1\n  },\n  {\n    \"productId\": 2,\n    \"quantity\": 2\n  }\n]",

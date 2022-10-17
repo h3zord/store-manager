@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const connection = require('../../../src/models/connection');
 const { productsModel } = require('../../../src/models');
-const { expectReturn, newProduct } = require('./mocks/productsModelMock')
+const { expectReturn, newProduct, expectReturnByQuery } = require('./mocks/productsModelMock')
 
 describe('Testes dos produtos na camada model', function () {
   describe('Listar todos os produtos', function () {
@@ -53,6 +53,16 @@ describe('Testes dos produtos na camada model', function () {
       const result = await productsModel.deleteById(1);
 
       expect(result).to.be.eq(1);
+    });
+  });
+
+  describe('Buscando produtos através de querys', function () {
+    it('Verificando se retorna o produto correto', async () => {
+      sinon.stub(connection, 'execute').resolves([expectReturnByQuery]);
+
+      const result = await productsModel.findByQuery('%Martelo%');
+
+      expect(result).to.be.deep.eq(expectReturnByQuery);
     });
   });
 
