@@ -48,7 +48,7 @@ const findByQuery = async (req, res) => {
 
   if (!type) return res.status(200).json(message);
 
-  return res.status(404).json([]);
+  return res.status(404).json({ message });
 };
 
 module.exports = {

@@ -8,6 +8,7 @@
     "npm": ">=7.0.0"
   },
   "scripts": {
+    "start:prod": "node ./swagger.js && node ./src/server.js",
     "test": "jest --config ./jest.config.js --runInBand --detectOpenHandles",
     "test:mocha": "nyc --all --include src/models --include src/services --include src/controllers mocha tests/unit/**/*.js --exit",
     "start": "node src/server.js",
@@ -38,9 +39,12 @@
     "mysql2": "2.3.0",
     "shelljs": "0.8.5",
     "sinon-chai": "^3.7.0",
-    "snakeize": "^0.1.0"
+    "snakeize": "^0.1.0",
+    "swagger-autogen": "^2.23.1",
+    "swagger-ui-express": "^4.6.1"
   },
   "devDependencies": {
+    "@types/swagger-ui-express": "^4.1.3",
     "chai": "4.3.4",
     "eslint-config-trybe-backend": "1.0.4",
     "frisby": "2.1.2",

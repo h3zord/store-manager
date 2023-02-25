@@ -4,3 +4,4 @@ coverage
 __tests__
 tests
 jest.config.js
+swagger.js

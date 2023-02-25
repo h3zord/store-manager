@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 const checkProductInfo = (req, res, next) => {
   const { name } = req.body;
   if (!name) return res.status(400).json({ message: '"name" is required' });
@@ -5,14 +6,17 @@ const checkProductInfo = (req, res, next) => {
 };
 
 const checkSaleInfo = (req, res, next) => {
+  if (!Object.keys(req.body).length) {
+    return res.status(400).json({ message: '"productId" or "quantity" are missing' });
+  }
+  
   for (let index = 0; index < req.body.length; index += 1) {
     const { productId, quantity } = req.body[index];
-    if (productId === undefined) {
-      return res.status(400).json({ message: '"productId" is required' });
+    if (productId === undefined || quantity === undefined) {
+      return res.status(400).json({ message: '"productId" or "quantity" are missing' });
     }
-    if (quantity === undefined) return res.status(400).json({ message: '"quantity" is required' });
-  } 
-  return next();
+  }
+  next();
 };
 
 module.exports = {

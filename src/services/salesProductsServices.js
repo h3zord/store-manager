@@ -48,7 +48,7 @@ const updateById = async (saleId, saleInfo) => {
   
   const result = await salesModel.findById(saleId);
   
-  if (!result) return { type: 'SALE_NOT_FOUND', message: 'Sale not found', status: 404 };
+  if (!result) return { type: 'SALE_NOT_FOUND', message: 'Sale not found', status: 401 };
 
   const message = await formattedUpdateById(saleId, saleInfo);
   

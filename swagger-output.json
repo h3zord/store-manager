@@ -1,0 +1,608 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Store Manager API",
+    "description": "Esta documentação é destinada ao projeto Store Manager."
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Products",
+      "description": "Endpoints"
+    },
+    {
+      "name": "Sales",
+      "description": "Endpoints"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/products": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Listar todos os produtos",
+        "description": "Endpoint para listar todos os produtos cadastrados no banco de dados.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Requisição para listar as partidas cadastradas no banco de dados efetuada com sucesso!",
+            "schema": {
+              "$ref": "#/definitions/ProductList"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Cadastrar um novo produto",
+        "description": "Endpoint para cadastrar um novo produto no banco de dados.",
+        "parameters": [
+          {
+            "name": "info",
+            "in": "body",
+            "description": "Informações necessárias para criar uma novo produto.",
+            "schema": {
+              "$ref": "#/definitions/CreateProduct"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Requisição para cadastrar um novo produto no banco de dados efetuada com sucesso!",
+            "schema": {
+              "$ref": "#/definitions/CreateProduct"
+            }
+          },
+          "400": {
+            "description": "Erro! A requisição falhou! Verifique se o body foi preenchido corretamente.",
+            "schema": {
+              "$ref": "#/definitions/InvalidBodyError"
+            }
+          },
+          "422": {
+            "description": "Erro! A requisição falhou! Verifique se o name foi preenchido corretamente.",
+            "schema": {
+              "$ref": "#/definitions/InvalidNameError"
+            }
+          }
+        }
+      }
+    },
+    "/products/search": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Buscar um produto através de uma query",
+        "description": "Endpoint para buscar um produto cadastrado no banco de dados através de uma query.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "type": "string",
+            "default": "Martelo",
+            "description": "Query usada para filtrar produtos específicos."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Requisição para buscar um produto pela query efetuada com sucesso!",
+            "schema": {
+              "$ref": "#/definitions/ProductList"
+            }
+          },
+          "404": {
+            "description": "Erro! A requisição falhou! Nenhum produto foi encontrado no banco de dados.",
+            "schema": {
+              "$ref": "#/definitions/ProductNotFoundError"
+            }
+          }
+        }
+      }
+    },
+    "/products/{id}": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Buscar um produto pelo seu ID",
+        "description": "Endpoint para buscar um produto cadastrado no banco de dados pelo seu ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID necessário para buscar um produto cadastrado no banco de dados."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Requisição para buscar um produto pelo seu ID efetuada com sucesso!",
+            "schema": {
+              "$ref": "#/definitions/ProductList"
+            }
+          },
+          "404": {
+            "description": "Erro! A requisição falhou! Nenhum produto foi encontrado no banco de dados.",
+            "schema": {
+              "$ref": "#/definitions/ProductNotFoundError"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Atualizar um produto buscando pelo seu ID",
+        "description": "Endpoint para atualizar um produto cadastrado no banco de dados buscando pelo seu ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID necessário para buscar um produto cadastrado no banco de dados."
+          },
+          {
+            "name": "info",
+            "in": "body",
+            "description": "Informações necessárias para atualizar uma produto.",
+            "schema": {
+              "$ref": "#/definitions/UpdateProduct"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Requisição para atualizar um produto pelo seu ID efetuada com sucesso!",
+            "schema": {
+              "$ref": "#/definitions/UpdateProduct"
+            }
+          },
+          "400": {
+            "description": "Erro! A requisição falhou! Verifique se o body foi preenchido corretamente.",
+            "schema": {
+              "$ref": "#/definitions/InvalidBodyError"
+            }
+          },
+          "404": {
+            "schema": {
+              "$ref": "#/definitions/ProductNotFoundError"
+            },
+            "description": "Erro! A requisição falhou! Nenhum produto foi encontrado no banco de dados."
+          },
+          "422": {
+            "schema": {
+              "$ref": "#/definitions/InvalidNameError"
+            },
+            "description": "Erro! A requisição falhou! Verifique se o name foi preenchido corretamente."
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Deletar um produto buscando pelo seu ID",
+        "description": "Endpoint para deletar um produto cadastrado no banco de dados buscando pelo seu ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID necessário para deletar um produto cadastrado no banco de dados."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "A requisição para deletar um produto cadastrado no banco de dados foi efetuada com sucesso."
+          },
+          "404": {
+            "description": "Erro! A requisição falhou! Nenhum produto foi encontrado no banco de dados.",
+            "schema": {
+              "$ref": "#/definitions/ProductNotFoundError"
+            }
+          }
+        }
+      }
+    },
+    "/sales": {
+      "post": {
+        "tags": [
+          "Sales"
+        ],
+        "summary": "Cadastrar uma nova venda",
+        "description": "Endpoint para cadastrar uma nova venda no banco de dados.",
+        "parameters": [
+          {
+            "name": "info",
+            "in": "body",
+            "description": "Informações necessárias para criar uma nova venda.",
+            "schema": {
+              "$ref": "#/definitions/CreateSale"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Requisição para cadastrar uma nova venda no banco de dados efetuada com sucesso!",
+            "schema": {
+              "$ref": "#/definitions/CreatedSale"
+            }
+          },
+          "400": {
+            "description": "Erro! A requisição falhou! Verifique se o body foi preenchido corretamente.",
+            "schema": {
+              "$ref": "#/definitions/InvalidBodyCreateSale"
+            }
+          },
+          "404": {
+            "schema": {
+              "$ref": "#/definitions/ProductNotFoundError"
+            },
+            "description": "Erro! A requisição falhou! Algum dos produtos não foi encontrado no banco de dados."
+          },
+          "422": {
+            "schema": {
+              "$ref": "#/definitions/InvalidQuantityError"
+            },
+            "description": "Erro! A requisição falhou! A quantidade fornecida é inválida."
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Sales"
+        ],
+        "summary": "Listar todas as vendas",
+        "description": "Endpoint para listar todas as vendas cadastradas no banco de dados.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Requisição para listar todas as vendas cadastradas no banco de dados efetuada com sucesso!",
+            "schema": {
+              "$ref": "#/definitions/SaleList"
+            }
+          }
+        }
+      }
+    },
+    "/sales/{id}": {
+      "get": {
+        "tags": [
+          "Sales"
+        ],
+        "summary": "Buscar uma venda pelo seu ID",
+        "description": "Endpoint para buscar uma venda cadastrada no banco de dados pelo seu ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID necessário para buscar uma venda cadastrada no banco de dados."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Requisição para listar a vendas cadastrada no banco de dados pelo seu ID efetuada com sucesso!",
+            "schema": {
+              "$ref": "#/definitions/Sale"
+            }
+          },
+          "404": {
+            "description": "Erro! A requisição falhou! A venda não foi encontrada no banco de dados.",
+            "schema": {
+              "$ref": "#/definitions/SaleNotFoundError"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Sales"
+        ],
+        "summary": "Deletar uma venda pelo seu ID",
+        "description": "Endpoint para deletar uma venda cadastrada no banco de dados pelo seu ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID necessário para deletar uma venda cadastrada no banco de dados."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "A requisição para deletar uma venda cadastrada no banco de dados foi efetuada com sucesso."
+          },
+          "404": {
+            "description": "Erro! A requisição falhou! A venda não foi encontrada no banco de dados.",
+            "schema": {
+              "$ref": "#/definitions/SaleNotFoundError"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Sales"
+        ],
+        "summary": "Atualizar uma venda pelo seu ID",
+        "description": "Endpoint para atualizar uma venda cadastrada no banco de dados pelo seu ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID necessário para atualizar uma venda cadastrada no banco de dados."
+          },
+          {
+            "name": "info",
+            "in": "body",
+            "description": "Informações necessárias para atualizar uma venda.",
+            "schema": {
+              "$ref": "#/definitions/CreateSale"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Requisição para atualizar uma venda cadastrada no banco de dados pelo seu ID efetuada com sucesso!",
+            "schema": {
+              "$ref": "#/definitions/UpdatedSale"
+            }
+          },
+          "400": {
+            "description": "Erro! A requisição falhou! Verifique se o body foi preenchido corretamente.",
+            "schema": {
+              "$ref": "#/definitions/InvalidBodyCreateSale"
+            }
+          },
+          "401": {
+            "schema": {
+              "$ref": "#/definitions/SaleNotFoundError"
+            },
+            "description": "Erro! A requisição falhou! A venda não foi encontrada no banco de dados."
+          },
+          "404": {
+            "schema": {
+              "$ref": "#/definitions/ProductNotFoundError"
+            },
+            "description": "Erro! A requisição falhou! Algum dos produtos não foi encontrado no banco de dados."
+          },
+          "422": {
+            "schema": {
+              "$ref": "#/definitions/InvalidQuantityError"
+            },
+            "description": "Erro! A requisição falhou! A quantidade fornecida é inválida."
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Product": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1
+        },
+        "name": {
+          "type": "string",
+          "example": "Martelo de Thor"
+        }
+      }
+    },
+    "ProductList": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "Martelo de Thor"
+          }
+        }
+      }
+    },
+    "CreateProduct": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Tridente de Poseidon"
+        }
+      }
+    },
+    "UpdateProduct": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Lorem Ipsum"
+        }
+      }
+    },
+    "CreateSale": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "number",
+            "example": 1
+          },
+          "quantity": {
+            "type": "number",
+            "example": 7
+          }
+        }
+      }
+    },
+    "CreatedSale": {
+      "type": "object",
+      "properties": {
+        "itemsSold": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "productId": {
+                "type": "number",
+                "example": 1
+              },
+              "quantity": {
+                "type": "number",
+                "example": 10
+              }
+            }
+          }
+        }
+      }
+    },
+    "Sale": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "example": "2023-02-24T19:39:01.000Z"
+          },
+          "productId": {
+            "type": "number",
+            "example": 1
+          },
+          "quantity": {
+            "type": "number",
+            "example": 15
+          }
+        }
+      }
+    },
+    "SaleList": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "saleId": {
+            "type": "number",
+            "example": 1
+          },
+          "date": {
+            "type": "string",
+            "example": "2023-02-24T19:39:01.000Z"
+          },
+          "productId": {
+            "type": "number",
+            "example": 1
+          },
+          "quantity": {
+            "type": "number",
+            "example": 5
+          }
+        }
+      }
+    },
+    "UpdatedSale": {
+      "type": "object",
+      "properties": {
+        "itemsUpdated": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "quantity": {
+                "type": "number",
+                "example": 7
+              },
+              "productId": {
+                "type": "number",
+                "example": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "InvalidQuantityError": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "\"quantity\" must be greater than or equal to 1"
+        }
+      }
+    },
+    "InvalidBodyCreateSale": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "\"productId\" or \"quantity\" are missing"
+        }
+      }
+    },
+    "SaleNotFoundError": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "Sale not found"
+        }
+      }
+    },
+    "ProductNotFoundError": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "Product not found"
+        }
+      }
+    },
+    "InvalidBodyError": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "\"name\" is required"
+        }
+      }
+    },
+    "InvalidNameError": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "\"name\" length must be at least 5 characters long"
+        }
+      }
+    }
+  }
+}
