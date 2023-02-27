@@ -62,6 +62,7 @@ router.get(
     in: 'query',
     type: 'string',
     default: 'Martelo',
+    required: 'true',
     description: 'Query usada para filtrar produtos específicos.'
   } */
 
