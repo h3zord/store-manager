@@ -1,6 +1,6 @@
 const express = require('express');
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('../swagger-output.json');
+const swaggerDocument = require('./swagger-output.json');
 const { productsRouter, salesRouter } = require('./routers');
 
 const app = express();

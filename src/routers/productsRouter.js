@@ -4,6 +4,38 @@ const { checkProductInfo } = require('../middlewares/checkInputValues');
 
 const router = express.Router();
 
+router.post(
+  '/products',
+  checkProductInfo,
+  productsController.insert
+
+  // #swagger.tags = ['Products']
+  // #swagger.summary = 'Cadastrar um novo produto'
+  // #swagger.description = 'Endpoint para cadastrar um novo produto no banco de dados.'
+
+  /* #swagger.parameters['info'] = {
+    in: 'body',
+    description: 'Informações necessárias para criar uma novo produto.',
+    type: 'object',
+    schema: { $ref: "#/definitions/CreateProduct" },
+  } */
+
+  /* #swagger.responses[201] = {
+    schema: { $ref: "#/definitions/CreateProduct" },
+    description: 'Requisição para cadastrar um novo produto no banco de dados efetuada com sucesso!'
+  } */
+
+  /* #swagger.responses[400] = {
+    schema: { $ref: "#/definitions/InvalidBodyError" },
+    description: 'Erro! A requisição falhou! Verifique se o body foi preenchido corretamente.'
+  } */
+
+  /* #swagger.responses[422] = {
+    schema: { $ref: "#/definitions/InvalidNameError" },
+    description: 'Erro! A requisição falhou! Verifique se o name foi preenchido corretamente.'
+  } */,
+);
+
 router.get(
   '/products', 
   productsController.getAll
@@ -14,7 +46,7 @@ router.get(
   
   /* #swagger.responses[200] = {
     schema: { $ref: "#/definitions/ProductList" },
-    description: 'Requisição para listar as partidas cadastradas no banco de dados efetuada com sucesso!'
+    description: 'Requisição para listar todos os produtos cadastrados no banco de dados efetuada com sucesso!'
   } */,
 );
 
@@ -70,38 +102,6 @@ router.get(
   } */,
 );
 
-router.post(
-  '/products',
-  checkProductInfo,
-  productsController.insert
-
-  // #swagger.tags = ['Products']
-  // #swagger.summary = 'Cadastrar um novo produto'
-  // #swagger.description = 'Endpoint para cadastrar um novo produto no banco de dados.'
-
-  /* #swagger.parameters['info'] = {
-    in: 'body',
-    description: 'Informações necessárias para criar uma novo produto.',
-    type: 'object',
-    schema: { $ref: "#/definitions/CreateProduct" },
-  } */
-
-  /* #swagger.responses[201] = {
-    schema: { $ref: "#/definitions/CreateProduct" },
-    description: 'Requisição para cadastrar um novo produto no banco de dados efetuada com sucesso!'
-  } */
-
-  /* #swagger.responses[400] = {
-    schema: { $ref: "#/definitions/InvalidBodyError" },
-    description: 'Erro! A requisição falhou! Verifique se o body foi preenchido corretamente.'
-  } */
-
-  /* #swagger.responses[422] = {
-    schema: { $ref: "#/definitions/InvalidNameError" },
-    description: 'Erro! A requisição falhou! Verifique se o name foi preenchido corretamente.'
-  } */,
-);
-
 router.put(
   '/products/:id',
   checkProductInfo,
@@ -120,7 +120,7 @@ router.put(
 
   /* #swagger.parameters['info'] = {
     in: 'body',
-    description: 'Informações necessárias para atualizar uma produto.',
+    description: 'Informações necessárias para atualizar um produto.',
     type: 'object',
     schema: { $ref: "#/definitions/UpdateProduct" },
   } */

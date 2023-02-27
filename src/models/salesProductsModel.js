@@ -41,8 +41,6 @@ const updateById = async (saleId, saleInfo, saleInfoOutDated) => {
   const conditions = Object.keys(snakeize(saleInfo))
     .map((key) => `${key} = ?`)
     .join(' AND ');
-
-    console.log([...Object.values(saleInfo), saleId, Object.values(saleInfoOutDated)]);
   
   const [{ changedRows }] = await connection.execute(
     `UPDATE StoreManager.sales_products SET ${columns} WHERE sale_id = ? AND ${conditions}`,

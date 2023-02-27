@@ -23,61 +23,67 @@ const doc = {
   ],
   definitions: {
     Product: {
-      "id": 1,
-      "name": "Martelo de Thor"
-    },
-    ProductList: [{
       id: 1,
       name: "Martelo de Thor"
-    }],
+    },
     CreateProduct: {
       name: "Tridente de Poseidon"
     },
     UpdateProduct: {
       name: "Lorem Ipsum"
     },
+    ProductList: [{
+      id: 1,
+      name: "Martelo de Thor"
+    }],
+    Sale: [
+      {
+        date: "2023-02-24T19:39:01.000Z",
+        productId: 1,
+        quantity: 15
+      }
+    ],
     CreateSale: [
       {
-        "productId": 1,
-        "quantity": 7
+        productId: 1,
+        quantity: 7
       }
     ],
     CreatedSale: {
-      "itemsSold": [
+      itemsSold: [
         {
-          "productId": 1,
-          "quantity": 10
+          productId: 1,
+          quantity: 7
         }
       ]
     },
-    Sale: [
-      {
-        "date": "2023-02-24T19:39:01.000Z",
-        "productId": 1,
-        "quantity": 15
-      }
-    ],
+    UpdatedSale: {
+      itemsUpdated: [
+        {
+          quantity: 7,
+          productId: 1
+        }
+      ]
+    },
     SaleList: [
       {
-        "saleId": 1,
-        "date": "2023-02-24T19:39:01.000Z",
-        "productId": 1,
-        "quantity": 5
+        saleId: 1,
+        date: "2023-02-24T19:39:01.000Z",
+        productId: 1,
+        quantity: 5
       },
     ],
-    UpdatedSale: {
-      "itemsUpdated": [
-        {
-          "quantity": 7,
-          "productId": 1
-        }
-      ]
-    },
-    InvalidQuantityError: {
-      message: '"quantity" must be greater than or equal to 1'
+    InvalidBodyError: {
+      message: '"name" is required'
     },
     InvalidBodyCreateSale: {
       message: '"productId" or "quantity" are missing'
+    },
+    InvalidNameError: {
+      message: '"name" length must be at least 5 characters long'
+    },
+    InvalidQuantityError: {
+      message: '"quantity" must be greater than or equal to 1'
     },
     SaleNotFoundError: {
       message: "Sale not found"
@@ -85,16 +91,10 @@ const doc = {
     ProductNotFoundError: {
       message: "Product not found"
     },
-    InvalidBodyError: {
-      message: '"name" is required'
-    },
-    InvalidNameError: {
-      message: "\"name\" length must be at least 5 characters long"
-    }
   },
 };
 
-const outputFile = './swagger-output.json';
+const outputFile = './src/swagger-output.json';
 const endpointsFiles = [
   './src/routers/productsRouter.js',
   './src/routers/salesRouter.js',

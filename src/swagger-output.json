@@ -28,22 +28,6 @@
   ],
   "paths": {
     "/products": {
-      "get": {
-        "tags": [
-          "Products"
-        ],
-        "summary": "Listar todos os produtos",
-        "description": "Endpoint para listar todos os produtos cadastrados no banco de dados.",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "Requisição para listar as partidas cadastradas no banco de dados efetuada com sucesso!",
-            "schema": {
-              "$ref": "#/definitions/ProductList"
-            }
-          }
-        }
-      },
       "post": {
         "tags": [
           "Products"
@@ -77,6 +61,22 @@
             "description": "Erro! A requisição falhou! Verifique se o name foi preenchido corretamente.",
             "schema": {
               "$ref": "#/definitions/InvalidNameError"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Listar todos os produtos",
+        "description": "Endpoint para listar todos os produtos cadastrados no banco de dados.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Requisição para listar todos os produtos cadastrados no banco de dados efetuada com sucesso!",
+            "schema": {
+              "$ref": "#/definitions/ProductList"
             }
           }
         }
@@ -162,7 +162,7 @@
           {
             "name": "info",
             "in": "body",
-            "description": "Informações necessárias para atualizar uma produto.",
+            "description": "Informações necessárias para atualizar um produto.",
             "schema": {
               "$ref": "#/definitions/UpdateProduct"
             }
@@ -302,37 +302,10 @@
         ],
         "responses": {
           "200": {
-            "description": "Requisição para listar a vendas cadastrada no banco de dados pelo seu ID efetuada com sucesso!",
+            "description": "Requisição para listar a venda cadastrada no banco de dados pelo seu ID efetuada com sucesso!",
             "schema": {
               "$ref": "#/definitions/Sale"
             }
-          },
-          "404": {
-            "description": "Erro! A requisição falhou! A venda não foi encontrada no banco de dados.",
-            "schema": {
-              "$ref": "#/definitions/SaleNotFoundError"
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Sales"
-        ],
-        "summary": "Deletar uma venda pelo seu ID",
-        "description": "Endpoint para deletar uma venda cadastrada no banco de dados pelo seu ID.",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "ID necessário para deletar uma venda cadastrada no banco de dados."
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "A requisição para deletar uma venda cadastrada no banco de dados foi efetuada com sucesso."
           },
           "404": {
             "description": "Erro! A requisição falhou! A venda não foi encontrada no banco de dados.",
@@ -346,8 +319,8 @@
         "tags": [
           "Sales"
         ],
-        "summary": "Atualizar uma venda pelo seu ID",
-        "description": "Endpoint para atualizar uma venda cadastrada no banco de dados pelo seu ID.",
+        "summary": "Atualizar uma venda buscando pelo seu ID",
+        "description": "Endpoint para atualizar uma venda cadastrada no banco de dados buscando pelo seu ID.",
         "parameters": [
           {
             "name": "id",
@@ -397,6 +370,33 @@
             "description": "Erro! A requisição falhou! A quantidade fornecida é inválida."
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "Sales"
+        ],
+        "summary": "Deletar uma venda buscando pelo seu ID",
+        "description": "Endpoint para deletar uma venda cadastrada no banco de dados buscando pelo seu ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID necessário para deletar uma venda cadastrada no banco de dados."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "A requisição para deletar uma venda cadastrada no banco de dados foi efetuada com sucesso."
+          },
+          "404": {
+            "description": "Erro! A requisição falhou! A venda não foi encontrada no banco de dados.",
+            "schema": {
+              "$ref": "#/definitions/SaleNotFoundError"
+            }
+          }
+        }
       }
     }
   },
@@ -411,6 +411,24 @@
         "name": {
           "type": "string",
           "example": "Martelo de Thor"
+        }
+      }
+    },
+    "CreateProduct": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Tridente de Poseidon"
+        }
+      }
+    },
+    "UpdateProduct": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Lorem Ipsum"
         }
       }
     },
@@ -430,21 +448,23 @@
         }
       }
     },
-    "CreateProduct": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string",
-          "example": "Tridente de Poseidon"
-        }
-      }
-    },
-    "UpdateProduct": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string",
-          "example": "Lorem Ipsum"
+    "Sale": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "example": "2023-02-24T19:39:01.000Z"
+          },
+          "productId": {
+            "type": "number",
+            "example": 1
+          },
+          "quantity": {
+            "type": "number",
+            "example": 15
+          }
         }
       }
     },
@@ -478,29 +498,30 @@
               },
               "quantity": {
                 "type": "number",
-                "example": 10
+                "example": 7
               }
             }
           }
         }
       }
     },
-    "Sale": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "date": {
-            "type": "string",
-            "example": "2023-02-24T19:39:01.000Z"
-          },
-          "productId": {
-            "type": "number",
-            "example": 1
-          },
-          "quantity": {
-            "type": "number",
-            "example": 15
+    "UpdatedSale": {
+      "type": "object",
+      "properties": {
+        "itemsUpdated": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "quantity": {
+                "type": "number",
+                "example": 7
+              },
+              "productId": {
+                "type": "number",
+                "example": 1
+              }
+            }
           }
         }
       }
@@ -529,33 +550,12 @@
         }
       }
     },
-    "UpdatedSale": {
-      "type": "object",
-      "properties": {
-        "itemsUpdated": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "quantity": {
-                "type": "number",
-                "example": 7
-              },
-              "productId": {
-                "type": "number",
-                "example": 1
-              }
-            }
-          }
-        }
-      }
-    },
-    "InvalidQuantityError": {
+    "InvalidBodyError": {
       "type": "object",
       "properties": {
         "message": {
           "type": "string",
-          "example": "\"quantity\" must be greater than or equal to 1"
+          "example": "\"name\" is required"
         }
       }
     },
@@ -565,6 +565,24 @@
         "message": {
           "type": "string",
           "example": "\"productId\" or \"quantity\" are missing"
+        }
+      }
+    },
+    "InvalidNameError": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "\"name\" length must be at least 5 characters long"
+        }
+      }
+    },
+    "InvalidQuantityError": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "\"quantity\" must be greater than or equal to 1"
         }
       }
     },
@@ -583,24 +601,6 @@
         "message": {
           "type": "string",
           "example": "Product not found"
-        }
-      }
-    },
-    "InvalidBodyError": {
-      "type": "object",
-      "properties": {
-        "message": {
-          "type": "string",
-          "example": "\"name\" is required"
-        }
-      }
-    },
-    "InvalidNameError": {
-      "type": "object",
-      "properties": {
-        "message": {
-          "type": "string",
-          "example": "\"name\" length must be at least 5 characters long"
         }
       }
     }

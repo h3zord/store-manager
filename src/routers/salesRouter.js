@@ -72,35 +72,10 @@ router.get(
 
   /* #swagger.responses[200] = {
     schema: { $ref: "#/definitions/Sale" },
-    description: 'Requisição para listar a vendas cadastrada no banco de dados pelo seu ID efetuada com sucesso!'
+    description: 'Requisição para listar a venda cadastrada no banco de dados pelo seu ID efetuada com sucesso!'
   } */
   
    /* #swagger.responses[404] = {
-    schema: { $ref: "#/definitions/SaleNotFoundError" },
-    description: 'Erro! A requisição falhou! A venda não foi encontrada no banco de dados.'
-  } */,
-);
-
-router.delete(
-  '/sales/:id',
-  salesProductsController.deleteById
-
-  // #swagger.tags = ['Sales']
-  // #swagger.summary = 'Deletar uma venda pelo seu ID'
-  // #swagger.description = 'Endpoint para deletar uma venda cadastrada no banco de dados pelo seu ID.'
-
-  /* #swagger.parameters['id'] = {
-    in: 'path',
-    type: 'string',
-    required: true,
-    description: 'ID necessário para deletar uma venda cadastrada no banco de dados.'
-  } */
-
-  /* #swagger.responses[204] = {
-    description: 'A requisição para deletar uma venda cadastrada no banco de dados foi efetuada com sucesso.'
-  } */
-
-  /* #swagger.responses[404] = {
     schema: { $ref: "#/definitions/SaleNotFoundError" },
     description: 'Erro! A requisição falhou! A venda não foi encontrada no banco de dados.'
   } */,
@@ -112,8 +87,8 @@ router.put(
   salesProductsController.updateById
 
   // #swagger.tags = ['Sales']
-  // #swagger.summary = 'Atualizar uma venda pelo seu ID'
-  // #swagger.description = 'Endpoint para atualizar uma venda cadastrada no banco de dados pelo seu ID.'
+  // #swagger.summary = 'Atualizar uma venda buscando pelo seu ID'
+  // #swagger.description = 'Endpoint para atualizar uma venda cadastrada no banco de dados buscando pelo seu ID.'
 
   /* #swagger.parameters['id'] = {
     in: 'path',
@@ -152,6 +127,31 @@ router.put(
   /* #swagger.responses[422] = {
     schema: { $ref: "#/definitions/InvalidQuantityError" },
     description: 'Erro! A requisição falhou! A quantidade fornecida é inválida.'
+  } */,
+);
+
+router.delete(
+  '/sales/:id',
+  salesProductsController.deleteById
+
+  // #swagger.tags = ['Sales']
+  // #swagger.summary = 'Deletar uma venda buscando pelo seu ID'
+  // #swagger.description = 'Endpoint para deletar uma venda cadastrada no banco de dados buscando pelo seu ID.'
+
+  /* #swagger.parameters['id'] = {
+    in: 'path',
+    type: 'string',
+    required: true,
+    description: 'ID necessário para deletar uma venda cadastrada no banco de dados.'
+  } */
+
+  /* #swagger.responses[204] = {
+    description: 'A requisição para deletar uma venda cadastrada no banco de dados foi efetuada com sucesso.'
+  } */
+
+  /* #swagger.responses[404] = {
+    schema: { $ref: "#/definitions/SaleNotFoundError" },
+    description: 'Erro! A requisição falhou! A venda não foi encontrada no banco de dados.'
   } */,
 );
 

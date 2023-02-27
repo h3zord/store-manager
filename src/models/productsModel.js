@@ -54,12 +54,10 @@ const deleteById = async (productId) => {
 };
 
 const findByQuery = async (query) => {
-  console.log(query);
   const [result] = await connection.execute(
     'SELECT * FROM StoreManager.products WHERE name LIKE ?',
     [query],
   );
-  console.log(result);
   return result;
 };
 

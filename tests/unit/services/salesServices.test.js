@@ -54,7 +54,6 @@ describe('Teste das vendas na camada services', function () {
       const result = await salesProductsServices.findById(1);
   
       expect(result.type).to.be.eq(null);
-      // expect(result.message).to.be.eq(formattedFindByIdSale);
     }); 
   });
 

@@ -30,7 +30,7 @@ describe('Teste das vendas na camada controller', function () {
         .send([{ productId: 1 }]);
 
       expect(res.status).to.be.eq(400);
-      expect(res.text).to.be.equal('{"message":"\\"quantity\\" is required"}')
+      expect(res.text).to.be.equal('{"message":"\\"productId\\" or \\"quantity\\" are missing"}')
     });
 
     it('Testando se retorna o status 422 se quantity for igual ou menor que 0', async function () {
@@ -184,7 +184,7 @@ describe('Teste das vendas na camada controller', function () {
         .send([{ quantity: 1 }]);
 
       expect(res.status).to.be.eq(400);
-      expect(res.text).to.be.equal('{"message":"\\"productId\\" is required"}')
+      expect(res.text).to.be.equal('{"message":"\\"productId\\" or \\"quantity\\" are missing"}')
     });
 
     it('Testando de retorna um erro se quantity for inexistente', async function () {
@@ -194,7 +194,7 @@ describe('Teste das vendas na camada controller', function () {
         .send([{ productId: 1 }]);
 
       expect(res.status).to.be.eq(400);
-      expect(res.text).to.be.equal('{"message":"\\"quantity\\" is required"}')
+      expect(res.text).to.be.equal('{"message":"\\"productId\\" or \\"quantity\\" are missing"}')
     });
   });
 

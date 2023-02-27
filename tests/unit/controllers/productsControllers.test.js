@@ -169,7 +169,7 @@ describe('Teste dos produtos na camada controller', function () {
       await productsController.findByQuery(req, res);
 
       expect(res.status).to.have.been.calledWith(404);
-      expect(res.json).to.have.been.calledWith([]);
+      expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
     });
 
     it('Verificando se retorna um array de objeto com os produtos encontrados', async function () {
