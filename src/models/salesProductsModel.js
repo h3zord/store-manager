@@ -12,7 +12,7 @@ const insert = async (saleInfo) => {
     .join(', ');
   
   const [{ insertId }] = await connection.execute(
-    `INSERT INTO StoreManager.sales_products (${columns}) VALUE (${placeholders})`,
+    `INSERT INTO sales_products (${columns}) VALUE (${placeholders})`,
     [...Object.values(saleInfo)],
   );
   return insertId;
@@ -20,14 +20,14 @@ const insert = async (saleInfo) => {
 
 const getAll = async () => {
   const [result] = await connection.execute(
-    'SELECT * FROM StoreManager.sales_products',
+    'SELECT * FROM sales_products',
   );
   return camelize(result);
 };
 
 const findById = async (saleId) => {
   const [result] = await connection.execute(
-    'SELECT * FROM StoreManager.sales_products WHERE sale_id = ?',
+    'SELECT * FROM sales_products WHERE sale_id = ?',
     [saleId],
   );
   return camelize(result);
@@ -43,7 +43,7 @@ const updateById = async (saleId, saleInfo, saleInfoOutDated) => {
     .join(' AND ');
   
   const [{ changedRows }] = await connection.execute(
-    `UPDATE StoreManager.sales_products SET ${columns} WHERE sale_id = ? AND ${conditions}`,
+    `UPDATE sales_products SET ${columns} WHERE sale_id = ? AND ${conditions}`,
     [...Object.values(saleInfo), saleId, ...Object.values(saleInfoOutDated)],
   );
   return changedRows;

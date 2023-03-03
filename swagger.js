@@ -6,9 +6,9 @@ const doc = {
     title: 'Store Manager API',
     description: 'Esta documentação é destinada ao projeto Store Manager.',
   },
-  host: 'localhost:3000',
+  host: 'store-manager.up.railway.app',
   basePath: '/',
-  schemes: ['http'],
+  schemes: ['https', 'http'],
   consumes: ['application/json'],
   produces: ['application/json'],
   tags: [

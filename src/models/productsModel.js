@@ -4,14 +4,14 @@ const connection = require('./connection');
 
 const getAll = async () => { 
   const [result] = await connection.execute(
-    'SELECT * FROM StoreManager.products ORDER BY id ASC',
+    'SELECT * FROM products ORDER BY id ASC',
   );
   return camelize(result);
 };
 
 const findById = async (productId) => {
   const [[result]] = await connection.execute(
-    'SELECT * FROM StoreManager.products WHERE id = ?',
+    'SELECT * FROM products WHERE id = ?',
     [productId],
   );
   return camelize(result);
@@ -27,7 +27,7 @@ const insert = async (productInfo) => {
     .join(', ');
   
   const [{ insertId }] = await connection.execute(
-    `INSERT INTO StoreManager.products (${columns}) VALUE (${placeholders})`,
+    `INSERT INTO products (${columns}) VALUE (${placeholders})`,
     [...Object.values(productInfo)],
   );
   return insertId;
@@ -39,7 +39,7 @@ const updateById = async (productId, productInfo) => {
     .join(', ');
   
   const [{ changedRows }] = await connection.execute(
-    `UPDATE StoreManager.products SET ${columns} WHERE id = ?`,
+    `UPDATE products SET ${columns} WHERE id = ?`,
     [...Object.values(productInfo), productId],
   );
   return changedRows;
@@ -47,7 +47,7 @@ const updateById = async (productId, productInfo) => {
 
 const deleteById = async (productId) => {
   const [{ affectedRows }] = await connection.execute(
-    'DELETE FROM StoreManager.products WHERE id = ?',
+    'DELETE FROM products WHERE id = ?',
     [productId],
   );
   return affectedRows;
@@ -55,7 +55,7 @@ const deleteById = async (productId) => {
 
 const findByQuery = async (query) => {
   const [result] = await connection.execute(
-    'SELECT * FROM StoreManager.products WHERE name LIKE ?',
+    'SELECT * FROM products WHERE name LIKE ?',
     [query],
   );
   return result;
