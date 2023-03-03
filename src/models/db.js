@@ -70,3 +70,5 @@ const setupDatabase = async () => {
 };
 
 setupDatabase();
+
+module.exports = setupDatabase;

@@ -10,7 +10,7 @@
   "scripts": {
     "start": "node ./swagger.js && node ./src/models/db.js && node ./src/server.js",
     "test": "jest --config ./jest.config.js --runInBand --detectOpenHandles",
-    "test:mocha": "nyc --all --include src/models --include src/services --include src/controllers mocha tests/unit/**/*.js --exit",
+    "test:coverage": "node ./src/models/db.js && nyc --all --exclude src/models/db.js --include src/models --include src/services --include src/controllers mocha tests/unit/**/*.js --exit",
     "debug": "nodemon --ignore coverage --inspect=0.0.0.0:9229 src/server.js",
     "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json . --ext .js, .jsx",
     "migration": "node -e \"require('./__tests__/_utils').runMigration()\"",
