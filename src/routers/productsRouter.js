@@ -55,7 +55,7 @@ router.get(
   productsController.findByQuery
 
   // #swagger.tags = ['Products']
-  // #swagger.summary = 'Buscar um produto através de uma query'
+  // #swagger.summary = 'Buscar os produtos através de uma query'
   // #swagger.description = 'Endpoint para buscar um produto cadastrado no banco de dados através de uma query.'
 
   /* #swagger.parameters['q'] = {
