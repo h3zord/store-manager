@@ -15,7 +15,7 @@ router.post(
 
   /* #swagger.parameters['info'] = {
     in: 'body',
-    description: 'Informações necessárias para criar uma nova venda.',
+    description: 'Informações necessárias para cadastrar uma nova venda.',
     type: 'array',
     schema: { $ref: "#/definitions/CreateSale" },
   } */
