@@ -39,7 +39,7 @@
           {
             "name": "info",
             "in": "body",
-            "description": "Informações necessárias para criar uma novo produto.",
+            "description": "Informações necessárias para cadastrar um novo produto.",
             "schema": {
               "$ref": "#/definitions/CreateProduct"
             }
@@ -88,7 +88,7 @@
         "tags": [
           "Products"
         ],
-        "summary": "Buscar um produto através de uma query",
+        "summary": "Buscar os produtos através de uma query",
         "description": "Endpoint para buscar um produto cadastrado no banco de dados através de uma query.",
         "parameters": [
           {
@@ -236,7 +236,7 @@
           {
             "name": "info",
             "in": "body",
-            "description": "Informações necessárias para criar uma nova venda.",
+            "description": "Informações necessárias para cadastrar uma nova venda.",
             "schema": {
               "$ref": "#/definitions/CreateSale"
             }
