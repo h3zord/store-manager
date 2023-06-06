@@ -13,13 +13,13 @@
 
 ## O que foi desenvolvido?
 
-<strong>Store Manager</strong> é uma API de sistema de gerenciamento de vendas no formato dropshipping, capaz de realizar operações de CRUD (Create, Read, Update e Delete) utilizando a arquitetura MSC. O uso do Docker permitiu a criação de dois containers: um para rodar o código JavaScript fora do navegador com o Node.js, e outro para disponibilizar o banco de dados MySQL para a aplicação.
+<strong>Store Manager</strong> é uma API de sistema de gerenciamento de vendas no formato dropshipping, capaz de realizar operações de CRUD (Create, Read, Update e Delete) utilizando a arquitetura MSC. O uso do docker permitiu a criação de dois containers: um para rodar o código javascript fora do navegador com o node.js, e outro para disponibilizar o banco de dados mySQL para a aplicação.
 
-O projeto foi escrito em JavaScript, com o framework Express.js sendo utilizado para administrar as rotas, executar o tratamento das requisições HTTP e implementar os middlewares. A biblioteca Joi foi responsável por realizar as validações dos dados enviados no corpo das requisições.
+O projeto foi escrito em javascript, com o framework express.js sendo utilizado para administrar as rotas, executar o tratamento das requisições HTTP e implementar os middlewares. A biblioteca joi foi responsável por realizar as validações dos dados enviados no corpo das requisições.
 
-Os endpoints são capazes de realizar operações de CRUD tanto para vendas quanto para produtos. Para garantir a qualidade do código, foram escritos testes de unidade usando Mocha, Chai e Sinon, alcançando uma taxa de cobertura de 100% da aplicação. O desenvolvimento foi realizado com base no método de desenvolvimento orientado a testes (TDD).
+Os endpoints são capazes de realizar operações de CRUD tanto para vendas quanto para produtos. Para garantir a qualidade do código, foram escritos testes de unidade usando mocha, chai e sinon, alcançando uma taxa de cobertura de 100% da aplicação. O desenvolvimento foi realizado com base no método de desenvolvimento orientado a testes (TDD).
 
-## Linguagens e ferramentas:
+## Linguagens e ferramentas
 - Docker
 - Node.js
 - Javascript
@@ -29,7 +29,7 @@ Os endpoints são capazes de realizar operações de CRUD tanto para vendas quan
 - Chai
 - Sinon
 
-## Instalação e execução com Docker:
+## Instalação e execução com docker
 
 ### 1 - Clone o repositório:
 ```
